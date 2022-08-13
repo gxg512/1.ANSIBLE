@@ -4,7 +4,7 @@
   become: yes
 
   vars:
-    mysql_port: 3307
+    mysql_port: 3306
 
   tasks:
   - name: install mariadb

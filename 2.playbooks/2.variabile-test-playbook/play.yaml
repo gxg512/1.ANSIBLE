@@ -1,0 +1,24 @@
+---
+- name: install packages
+  hosts: clients
+  become: yes
+
+  tasks:
+  - name: get data from server
+    ansible.builtin.shell: date
+    register: output
+ 
+  - debug: msg="the date from the server is {{output.stdout}} "
+
+  - name: Run a shell command and register its output as a variable
+    ansible.builtin.shell: cat /tmp/test
+    register: test_result
+    ignore_errors: true
+
+# - debug: msg="{{test_result.stdout}}"
+
+      # - name: Run a shell command using output of the previous task
+      #ansible.builtin.shell: touch /tmp/test5
+      # when: "{{test_result.stdout}}" == 5
+
+
