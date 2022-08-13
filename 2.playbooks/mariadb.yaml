@@ -1,0 +1,26 @@
+---
+- name: install database
+  hosts: clients
+  become: yes
+
+  vars:
+    mysql_port: 3307
+
+  tasks:
+  - name: install mariadb
+    ansible.builtin.apt:
+      name: mariadb-server
+      state: present
+
+  - name: install net-tools
+    ansible.builtin.apt:
+      name: net-tools
+      state: present
+
+  - name: change mariadb port
+    template: src=./templates/mariadb.cnf.j2 dest=/etc/mysql/mariadb.cnf
+    notify: restart-mariadb
+
+  handlers:
+  - name: restart-mariadb
+    service: name=mariadb state=restarted
