@@ -1,0 +1,21 @@
+---
+- name: install packages
+  hosts: self
+  become: yes
+    
+  vars:
+    java_apt_package: openjdk-8-jdk
+    java_yum_package: java-1.8.0-openjdk
+
+  tasks:
+    - include_tasks: ./tasks/java_pre.yml
+    - include_tasks: ./tasks/java_install.yml
+
+    - name: check java version
+      ansible.builtin.shell: java -version 2>&1 | grep version | awk '{print $3}' | sed 's/"//g'
+      register: java_version
+
+    -  ansible.builtin.debug: msg=" Java is {{ java_version.stdout }} "
+     
+
+    #tomcat will be installed
