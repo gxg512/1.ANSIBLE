@@ -26,6 +26,7 @@
       ansible.builtin.shell: mvn --version 2>&1 | grep Maven | awk '{print $3}' | head -1
       register: maven_version
 
-    -  ansible.builtin.debug: msg=" Maven version is {{ maven_version.stdout }} "
-# check maven version
-    #tomcat will be installed
+    - ansible.builtin.debug: msg=" Maven version is {{ maven_version.stdout }} "
+
+  roles:
+    - tomcat
