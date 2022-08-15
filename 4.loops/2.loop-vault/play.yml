@@ -1,0 +1,29 @@
+---
+- name: set pass for user
+  hosts: clients
+  become: true
+
+  vars:
+    myuser: "testuser1"
+    mypassword: "pass"
+    mypassword_encrypted: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          32616232306462393436346263353834343863646566343036393839646461316539646365316664
+          6639386238616262393637646434316238353865393866320a656136666463643861653531313561
+          30623735386230663964353630313331353937333163346430623739306438313263326365363465
+          3635666132316466300a396233386130333863636337346637346336333134383934373730393939
+          3033
+
+  tasks:
+    - name: change password
+      ansible.builtin.user:
+        name: "{{ myuser }}"
+        state: present
+        password: "{{ mypassword | password_hash('sha512') }}"
+  
+   #    - name: change password vault version
+   #    ansible.builtin.user:
+   #     name: "{{ myuser }}"
+   #     state: present
+   #     password: "{{ mypassword_encrypted | string | password_hash('sha512') }}"
+
