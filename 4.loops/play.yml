@@ -1,0 +1,23 @@
+---
+- name: add new users with loop
+  hosts: clients
+  become: yes
+
+  vars:
+    group_name: "mygroup"
+
+  tasks:
+  - name: add group
+    ansible.builtin.group:
+      name: "{{ group_name }}"
+      state: present
+  
+  - name: add users
+    ansible.builtin.user:
+      name: "{{ item }}"
+      state: present
+      groups: "{{ group_name }}"
+    loop:
+     - testuser1
+     - testuser2
+     - testuser3
