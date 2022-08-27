@@ -1,0 +1,32 @@
+---
+- name: Print the gateway for each host when defined
+  ansible.builtin.debug:
+    msg: System {{ inventory_hostname }} has gateway {{ ansible_default_ipv4.address }}
+   
+- name: ensure the jenkins apt repository key is installed
+  apt_key: url=https://pkg.jenkins.io/debian-stable/jenkins.io.key state=present
+
+- name: ensure the repository is configured
+  apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/' state=present
+
+- name: ensure jenkins is installed
+  ansible.builtin.apt: 
+    name: jenkins 
+    state: present 
+    update_cache: yes
+
+- name: ensure jenkins is running
+  service: name=jenkins state=started
+  register: result
+
+- name: "Read a file content"
+  shell: |
+    cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: file_content
+
+- name: you can connect to jenkins via
+  ansible.builtin.debug:
+    msg: Access jenkins via http://{{ ansible_default_ipv4.address }}:8080 and the secret key is "{{ file_content.stdout }}"
+  when: result is succeeded
+
+
