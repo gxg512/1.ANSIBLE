@@ -19,7 +19,7 @@
       ansible.builtin.lineinfile:
         path: /etc/ssh/sshd_config
         regexp: '^(.*)#Port(.*)$'
-        line: 'Port 23'
+        line: "Port {{ ssh_port }}"
         backrefs: yes
 
     - name: Make sure a service unit is running
