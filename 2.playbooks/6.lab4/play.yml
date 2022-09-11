@@ -34,3 +34,9 @@
          hour: "*"
          job: 'echo "crontab via ansbile" > /tmp/crontab_output'
          user: "george"
+
+      - name: remove crontab
+        ansible.builtin.cron:
+          name: "check dirs"
+          state: absent
+          user: "george"
