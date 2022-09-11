@@ -1,0 +1,29 @@
+---
+- name: latest Apache version installed
+  ansible.builtin.apt:
+    name: apache2
+    state: latest
+  notify: apache-restart
+
+- name: latest firewalld version installed
+  ansible.builtin.apt:
+    name: ufw
+    state: latest
+
+- name: firewalld enabled and running
+  ansible.builtin.service:
+    name: ufw
+    enabled: true
+    state: started
+
+- name: Apache enabled and running
+  ansible.builtin.service:
+    name: apache2
+    enabled: true
+    state: started
+
+- name: deploy index.html
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+  notify: apache-restart
