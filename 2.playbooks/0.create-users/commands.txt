@@ -6,4 +6,12 @@ echo "123" > .vault_dev ansible-vault encrypt_string --vault-password-file .vaul
 
 ###################################### how to execute ansible:
 
-ansible-playbook --vault-id=.vault_dev -i inv.yaml play.yml or ansible-playbook --ask-vault-pass -i inv.yaml play.yml
+#ansible-playbook --vault-id=.vault_dev -i inv.yaml play.yml or ansible-playbook --ask-vault-pass -i inv.yaml play.yml
+
+
+pass.yml ->
+---
+mypassword_encrypted: "testpass"
+
+ansible-vault encrypt pass.yml 
+ansible-playbook --vault-id=.vault_dev -i inv.yml play3.yml 
