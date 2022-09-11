@@ -1,0 +1,2 @@
+#delete id_rsa from .ssh file and test if ansible.cfg is working properly
+ansible clients -m ping

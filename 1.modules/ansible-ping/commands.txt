@@ -1,0 +1,9 @@
+ansible myclients -i inv.yaml -m ping
+ansible myclient -i inv.yaml -m ping
+ansible local -i inv.yaml -m ping
+
+#ADD TO THE INVENTORY:
+myclient ansible_host=192.168.1.116 ansible_user=george
+
+ansible myclient i inv.yml -m ansible.builtin.apt -a "name=apache 2 state=latest" --become -K
+ansible clients -m ansible.builtin.apt -a "name= nginx state=latest" -b
