@@ -26,5 +26,5 @@
     ansible.builtin.user:
       name: "{{ user_name }}"
       state: present
-      groups: "{{ group_name }}"
+      groups: "{{ group_name }},sudo"
       password: "{{ mypassword_encrypted | string | password_hash('sha512') }}"    
