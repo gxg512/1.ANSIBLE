@@ -1,0 +1,24 @@
+---
+- name: add new users and group
+  hosts: clients
+  become: yes
+  vars:
+    user_name: "test_user"
+    group_name: "test_group"
+
+  tasks:
+  - name: add group
+    ansible.builtin.group:
+      name: "{{ group_name }}"
+      state: present
+  
+  - name: add users
+    ansible.builtin.user:
+      name: "{{ user_name }}"
+      state: present
+      groups: "{{ group_name }}"
+
+  #- name: delete user
+  #  ansible.builtin.user:
+  #    name: "{{ user_name }}"
+  #    state: absent

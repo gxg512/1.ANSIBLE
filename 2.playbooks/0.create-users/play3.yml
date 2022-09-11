@@ -1,0 +1,30 @@
+---
+- name: add new users and group
+  hosts: clients
+  become: yes
+  vars:
+    user_name: "test_user"
+    group_name: "test_group"
+    mypassword: "pass"
+    mypassword_encrypted: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          32643834306238313662633165353236653830626636356664623963316663376664313334373366
+          3964383238336536366464326364346135613537393137320a616339633333636663343364343165
+          34376564643066366630373237313830333633613063353534653136623835363932303432343762
+          3431613664386165390a656431383837396632386563373437366537346264343532656562313630
+          3536
+  tasks:
+   - name: add users and change pass
+     ansible.builtin.user:
+      name: "{{ user_name }}"
+      state: present
+      groups: "{{ group_name }}"
+      password: "{{ mypassword | password_hash('sha512') }}"
+
+   - name: change password vault version
+     ansible.builtin.user:
+       name: "{{ user_name }}"
+       state: present
+       groups: "{{ group_name }}"
+       password: "{{ mypassword_encrypted | string | password_hash('sha512') }}"
+
