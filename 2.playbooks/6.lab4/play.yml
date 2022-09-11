@@ -1,0 +1,36 @@
+---
+- name: add new users and group
+  hosts: clients
+  become: yes
+  vars:
+     user: "george"  
+ 
+  tasks:
+      - name: Execute the Uptime command over Command module
+        register: uptimeoutput
+        command: "uptime"
+            
+      - debug:
+          var: uptimeoutput.stdout_lines
+
+      - name: Run a script from remote
+        ansible.builtin.script: remote_script.sh
+
+      - name: Copy a the script to remote
+        ansible.builtin.copy:
+          src: local_script.sh
+          dest: /tmp/local_script.sh
+          owner: "{{ user }}"
+          group: "{{ user }}"
+          mode: '0744'
+   
+      - name: run the script
+        ansible.builtin.command: bash /tmp/local_script.sh
+
+      - name: Ensure a job that runs at 2 and 5 exists. Creates an entry like "0 5,2 * * ls -alh > /dev/null"
+        ansible.builtin.cron:
+         name: "check dirs"
+         minute: "*"
+         hour: "*"
+         job: 'echo "crontab via ansbile" > /tmp/crontab_output'
+         user: "george"
