@@ -1,0 +1,2 @@
+ansible-playbook -i inv.yml play.yml
+ansible-playbook --extra-vars "create_backup=yes" -i inv.yml play.yml

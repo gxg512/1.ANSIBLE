@@ -1,0 +1,28 @@
+---
+- name: add new users and group
+  hosts: clients
+  become: yes
+  vars:
+    ssh_port: "23"
+    create_backup: "no"
+    date: "{{ lookup('pipe', 'date +%m-%d-%y') }}"
+
+  tasks:
+    - name: Create a backup to "ssh_config" file
+      ansible.builtin.copy:
+        src: /etc/ssh/sshd_config
+        dest: /etc/ssh/sshd_config.bck-{{ date }}
+        remote_src: yes
+      when: create_backup == "yes"
+
+    - name: Replace a localhost entry searching for a literal string to avoid escaping
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^(.*)#Port(.*)$'
+        line: 'Port 23'
+        backrefs: yes
+
+    - name: Make sure a service unit is running
+      ansible.builtin.systemd:
+         state: restarted
+         name: ssh
