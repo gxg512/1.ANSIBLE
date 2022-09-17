@@ -1,0 +1,9 @@
+---
+- name: add new users and group
+  hosts: clients
+  become: yes
+  vars:
+    first_line: "hello from itschool"
+    second_line: "apache second line added from template file"
+  roles:
+   - role_apache
