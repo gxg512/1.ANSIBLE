@@ -1,6 +1,4 @@
-if [[ `git status --porcelain` ]]; then
-  echo "schimbari"
-else
-  echo "fara schibmari"
-fi
+git fetch
+$(git rev-parse HEAD) == $(git rev-parse @{u})
+
 #ansible-playbook -i inv.yml play.yml
