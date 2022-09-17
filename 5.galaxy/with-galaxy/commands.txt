@@ -1,6 +1,6 @@
 https://galaxy.ansible.com/lean_delivery/java
 ansible-galaxy install lean_delivery.java
-#
+
 - name: Install openjdk java
   hosts: all
 
