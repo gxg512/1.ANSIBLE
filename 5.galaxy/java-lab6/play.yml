@@ -1,0 +1,4 @@
+- name: Install java
+  hosts: clients
+  roles:
+    - role: gantsign.java
