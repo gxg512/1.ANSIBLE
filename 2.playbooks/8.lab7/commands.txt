@@ -1,0 +1,11 @@
+https://www.free-css.com/ -> you can find downloadable websites 
+
+ex wget https://www.free-css.com/assets/files/free-css-templates/download/page282/pro.zip
+
+unzip website.zip
+
+tar cvfj website.tar *
+tar -xvf website.tar
+
+
+### ansible va detecta singur ca sunt schimbari si va rula arhiva doar daca versiunea .war e diferita

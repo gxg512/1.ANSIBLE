@@ -1,0 +1,11 @@
+---
+- name: configure and instlall a website
+  hosts: clients
+  become: yes
+
+  roles:
+   - role_apache
+
+  tasks:
+    - debug:
+        msg: "Testeaza website-ul http://{{ ansible_ssh_host }}:80"

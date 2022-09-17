@@ -1,0 +1,5 @@
+[clients]
+myclient ansible_host=192.168.0.106 ansible_user=george
+
+[node]
+192.168.1.104
