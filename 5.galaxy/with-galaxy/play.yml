@@ -1,0 +1,5 @@
+- name: Install openjdk java
+  hosts: clients
+
+  roles:
+    - role: lean_delivery.java
