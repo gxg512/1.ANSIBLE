@@ -1,6 +1,6 @@
-if [[ `git status --porcelain` ]]; then
-  echo "schimbari"
+git pull
+diff website/website.tar roles/role_apache/files/website.tar 
+if [ $? -ne 0 ]; then 
+	ansible-playbook -i inv.yml play.yml
 else
-  echo "fara schibmari"
-fi
-#ansible-playbook -i inv.yml play.yml
+   echo "no changes of the website"
